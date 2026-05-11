@@ -32,7 +32,7 @@ body {
     backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Đẩy các phần xa nhau cho thoáng */
+    justify-content: space-between;
     transition: all 0.3s ease;
 }
 
@@ -88,9 +88,51 @@ body {
     transform: scale(1.1);
 }
 
+.click-hint {
+    color: var(--gold);
+    font-size: 0.9rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+/* --- PHẦN GIỚI THIỆU GAME (MỚI THÊM) --- */
+.game-section {
+    margin: 15px 0;
+    padding: 15px;
+    border-top: 1px dashed rgba(241, 196, 15, 0.3);
+}
+
+.game-section p {
+    font-size: 0.85rem;
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+.game-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background: transparent;
+    color: var(--gold) !important;
+    text-decoration: none;
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.1);
+}
+
+.game-btn:hover {
+    background: var(--gold);
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(241, 196, 15, 0.4);
+    transform: scale(1.05);
+}
+
 /* --- PHẦN TÙY HỶ & QUẢNG CÁO --- */
 .payment-section {
-    margin: 30px 0;
+    margin: 20px 0;
     padding: 25px;
     background: var(--glass);
     border-radius: 25px;
@@ -111,13 +153,6 @@ body {
     background: #fff;
 }
 
-.sub-qr {
-    font-size: 0.9rem;
-    color: var(--gold);
-    margin-top: 10px;
-    font-weight: bold;
-}
-
 /* --- NÚT BẤM --- */
 .btn-retry {
     background: var(--gold);
@@ -131,6 +166,7 @@ body {
     text-transform: uppercase;
     transition: 0.3s;
     box-shadow: 0 5px 20px rgba(241, 196, 15, 0.4);
+    margin-top: 15px;
 }
 
 .btn-retry:hover {
@@ -140,18 +176,18 @@ body {
 
 /* --- DÒNG BẢN QUYỀN (Rực rỡ tên Nam) --- */
 .footer-credit {
-    margin-top: 40px;
-    padding-top: 25px;
-    font-size: 1.1rem; /* To rõ hơn hẳn */
-    font-weight: 800; /* Chữ siêu đậm */
-    color: var(--gold); /* Màu vàng rực rỡ */
-    text-shadow: 0 0 15px rgba(241, 196, 15, 0.6); /* Hiệu ứng phát sáng mạnh */
+    margin-top: 30px;
+    padding-top: 20px;
+    font-size: 1.1rem; 
+    font-weight: 800; 
+    color: var(--gold); 
+    text-shadow: 0 0 15px rgba(241, 196, 15, 0.6); 
     border-top: 1px solid rgba(241, 196, 15, 0.3);
     letter-spacing: 2px;
-    text-transform: uppercase; /* Viết hoa cho chuyên nghiệp */
+    text-transform: uppercase; 
 }
 
-/* --- HIỆU ỨNG RUNG --- */
+/* --- HIỆU ỨNG RUNG & KHÓI --- */
 .shake { animation: shake-ani 0.1s infinite; }
 @keyframes shake-ani {
     0% { transform: rotate(0deg); }
@@ -166,14 +202,14 @@ body {
     from { opacity: 0; transform: translateY(20px); } 
     to { opacity: 1; transform: translateY(0); } 
 }
-/* Hiệu ứng khói huyền bí */
+
 .smoke-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Nằm dưới hũ xăm */
+    z-index: -1;
     overflow: hidden;
     pointer-events: none;
     background: radial-gradient(circle, #2a2a2a 0%, #1a1a1a 100%);
@@ -190,7 +226,6 @@ body {
     opacity: 0.5;
 }
 
-/* Các làn khói bay lệch nhau cho tự nhiên */
 .smoke:nth-child(1) { top: -10%; left: -10%; animation-duration: 25s; }
 .smoke:nth-child(2) { bottom: -10%; right: -10%; animation-duration: 30s; animation-delay: -5s; }
 .smoke:nth-child(3) { top: 40%; left: 30%; animation-duration: 20s; animation-delay: -10s; }
