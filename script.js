@@ -1,12 +1,13 @@
 /**
- * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN CHÍNH THỨC 2026
- * Phát triển bởi: Trần Bảo Nam
+ * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN HOÀN THIỆN 2026
+ * Tác giả: Trần Bảo Nam
+ * Cơ chế: Gieo quẻ theo Tên + Ngày
  */
 
 const MAX_FREE_GIEOS = 2; 
 let isShaking = false; 
 
-// KHO 108 QUẺ BÓI (58 CÁT - 50 BÌNH AN)
+// KHO 108 QUẺ BÓI (Giữ nguyên dữ liệu của Nam)
 const dataFortune = {
     "NHOM_CAT_TUONG": [
         { ten: "ĐẠI CÁT", loi: "Vận may bùng nổ, dự định bấy lâu sẽ thành công rực rỡ." },
@@ -86,7 +87,7 @@ const dataFortune = {
         { ten: "MỆT MỎI", loi: "Sức khỏe xuống dốc, cần ưu tiên việc chăm sóc bản thân." },
         { ten: "CHÊ KHEN", loi: "Đừng quá bận tâm lời người khác, hãy tin vào giá trị của mình." },
         { ten: "NGỜ VỰC", loi: "Thiếu niềm tin vào đồng nghiệp làm trì trệ công việc chung." },
-        { ten: "GIÁN ĐOẠN", loi: "Việc đang làm bị ngắt quãng nửa chừng bởi lý do khách quan." },
+        { some: "GIÁN ĐOẠN", loi: "Việc đang làm bị ngắt quãng nửa chừng bởi lý do khách quan." },
         { ten: "LO ÂU", loi: "Suy nghĩ quá nhiều về tương lai làm hỏng niềm vui hiện tại." },
         { ten: "NHẠT NHẼO", loi: "Một ngày trôi qua thiếu điểm nhấn, hãy thử làm điều gì đó mới." },
         { ten: "RỐI RẮM", loi: "Nhiều chuyện ập đến cùng lúc khiến bạn khó xử lý hết." },
@@ -111,7 +112,7 @@ const dataFortune = {
         { ten: "BÌ ĐỘNG", loi: "Phải chạy theo kế hoạch của người khác, thiếu sự chủ động." },
         { ten: "NGĂN TRỞ", loi: "Sự việc không diễn ra theo ý muốn do yếu tố thời tiết hoặc con người." },
         { ten: "LƯỠNG LỰ", loi: "Không dám bước ra khỏi vùng an toàn, bỏ lỡ trải nghiệm." },
-        { ten: "CẢM TÍNH", loi: "Để tình cảm lấn át lý trí, dễ đưa ra lựa chọn sai lầm." },
+        { ten: "CẢ MẾN", loi: "Để tình cảm lấn át lý trí, dễ đưa ra lựa chọn sai lầm." },
         { ten: "SƠ SUẤT", loi: "Chủ quan trong công việc dẫn đến kết quả không hoàn hảo." },
         { ten: "CÔ LẬP", loi: "Cảm thấy bị tách rời khỏi tập thể, cần sự hòa nhập hơn." },
         { ten: "NHẠY CẢM", loi: "Dễ xúc động và suy nghĩ quá mức về những điều nhỏ nhặt." },
@@ -122,105 +123,117 @@ const dataFortune = {
     ]
 };
 
-// THUẬT TOÁN HASH (Tên + Ngày + Muối)
-function getDailyEnergyGroup(name) {
+// --- CHỈNH SỬA CỦA BẢO NAM: THUẬT TOÁN THEO TÊN + NGÀY ---
+function getDailyEnergyGroup(userName) {
     const today = new Date().toISOString().slice(0, 10);
-    const salt = "TranBaoNam_Soul_2026"; 
-    const seed = name.trim().toLowerCase() + today + salt;
+    
+    // Trộn Ngày + Tên Người Dùng + Muối (TranBaoNam)
+    const seed = today + userName.trim().toLowerCase() + "TranBaoNam2026";
     let hash = 0;
     for (let i = 0; i < seed.length; i++) {
         hash = ((hash << 5) - hash) + seed.charCodeAt(i);
         hash |= 0;
     }
+    // Dựa vào số cuối của Hash để chọn nhóm (Chẵn: Cát tường, Lẻ: Bình an)
     return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BINH_AN";
 }
 
-// HIỆU ỨNG GÕ CHỮ
-function typeWriter(elementId, text) {
+// HIỆU ỨNG GÕ CHỮ (Giữ nguyên)
+function typeWriter(elementId, text, speed = 60) {
     let i = 0;
-    const el = document.getElementById(elementId);
-    el.innerHTML = "";
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    element.innerHTML = ""; 
+    
     function typing() {
         if (i < text.length) {
-            el.innerHTML += text.charAt(i);
+            element.innerHTML += text.charAt(i);
             i++;
-            setTimeout(typing, 50);
+            setTimeout(typing, speed);
         }
     }
     typing();
 }
 
-// LOGIC GIEO QUẺ
+// LOGIC GIEO QUẺ (Cập nhật check Tên)
 function gieoQue() {
     if (isShaking) return;
 
+    // Lấy tên từ ô input Nam mới thêm vào index.html
     const nameInput = document.getElementById('user-name').value;
     if (nameInput.trim().length < 2) {
-        alert("Vui lòng nhập tên (ít nhất 2 ký tự) để quẻ linh ứng Nam nhé!");
+        alert("Vui lòng nhập tên (ít nhất 2 ký tự) để quẻ linh ứng nhé!");
         return;
     }
 
     let gieoCount = parseInt(localStorage.getItem('gieo_count')) || 0;
-    let lastDate = localStorage.getItem('last_gieo_date');
+    let lastGieoDate = localStorage.getItem('last_gieo_date');
     const today = new Date().toISOString().slice(0, 10);
 
-    if (lastDate !== today) {
+    if (lastGieoDate !== today) {
         gieoCount = 0;
         localStorage.setItem('last_gieo_date', today);
     }
 
     if (gieoCount >= MAX_FREE_GIEOS) {
-        document.getElementById('ads-screen').classList.remove('hidden');
+        alert("Duyên hôm nay đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và quay lại vào ngày mai nhé!");
         return;
     }
 
     thucHienGieo(gieoCount, nameInput);
 }
 
-// THỰC HIỆN HIỆU ỨNG RUNG VÀ HIỂN THỊ
-function thucHienGieo(count, name) {
+// HIỆU ỨNG RUNG VÀ HIỂN THỊ KẾT QUẢ
+function thucHienGieo(currentCount, userName) {
     isShaking = true;
-    const img = document.getElementById('img-hu');
+    const hu = document.getElementById('img-hu');
+    const mainScreen = document.getElementById('main-screen');
+    const resultScreen = document.getElementById('result-screen');
     const sndShake = document.getElementById('sound-shake');
     const sndResult = document.getElementById('sound-result');
 
-    if (img) img.classList.add('shake');
+    if (hu) hu.classList.add('shake');
     if (sndShake) sndShake.play().catch(() => {});
 
     setTimeout(() => {
-        if (img) img.classList.remove('shake');
+        if (hu) hu.classList.remove('shake');
         if (sndShake) { sndShake.pause(); sndShake.currentTime = 0; }
         if (sndResult) sndResult.play().catch(() => {});
 
-        document.getElementById('main-screen').classList.add('hidden');
+        if (mainScreen) mainScreen.classList.add('hidden');
         
-        const group = getDailyEnergyGroup(name);
-        const list = dataFortune[group];
-        const res = list[Math.floor(Math.random() * list.length)];
+        // --- CHỐT HẠ: Bốc quẻ dựa trên Tên nhập vào ---
+        const groupName = getDailyEnergyGroup(userName);
+        const currentGroup = dataFortune[groupName];
         
-        // Lời chào theo giờ
+        // Dùng thuật toán chọn phần tử ngẫu nhiên nhưng cố định theo tên trong ngày
+        const seedIndex = userName.length + new Date().getDate();
+        const ngauNhien = currentGroup[seedIndex % currentGroup.length];
+        
         const hour = new Date().getHours();
-        let greeting = hour < 11 ? "Sáng sớm thanh tịnh, " : 
-                       hour < 14 ? "Trưa nắng đứng bóng, " : 
-                       hour < 18 ? "Chiều tà buông xuống, " : "Đêm trường tĩnh lặng, ";
+        let greeting = "";
+        if (hour < 11) greeting = "Sáng sớm thanh tịnh, ";
+        else if (hour < 14) greeting = "Trưa nắng đứng bóng, ";
+        else if (hour < 18) greeting = "Chiều tà buông xuống, ";
+        else greeting = "Đêm trường tĩnh lặng, ";
 
-        document.getElementById('ten-que').innerText = res.ten;
-        document.getElementById('result-screen').classList.remove('hidden');
-        typeWriter('loi-giai', greeting + res.loi);
+        const fullText = greeting + ngauNhien.loi;
         
-        localStorage.setItem('gieo_count', count + 1);
+        const tenQueEl = document.getElementById('ten-que');
+        if (tenQueEl) tenQueEl.innerText = ngauNhien.ten;
+        
+        if (resultScreen) resultScreen.classList.remove('hidden');
+        typeWriter('loi-giai', fullText);
+
+        localStorage.setItem('gieo_count', currentCount + 1);
         isShaking = false;
-    }, 1500);
+    }, 2000);
 }
 
-// ĐÓNG QUẢNG CÁO
-function closeAds() {
-    document.getElementById('ads-screen').classList.add('hidden');
-}
-
-// QUAY LẠI
 function restyle() {
     isShaking = false;
-    document.getElementById('result-screen').classList.add('hidden');
-    document.getElementById('main-screen').classList.remove('hidden');
+    const resultScreen = document.getElementById('result-screen');
+    const mainScreen = document.getElementById('main-screen');
+    if (resultScreen) resultScreen.classList.add('hidden');
+    if (mainScreen) mainScreen.classList.remove('hidden');
 }
