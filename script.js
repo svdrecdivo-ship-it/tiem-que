@@ -1,8 +1,3 @@
-/**
- * TIỆM QUẺ VỈA HÈ - BẢN FIX MƯỢT MÀ
- * Phát triển bởi: Trần Bảo Nam
- */
-
 const MAX_FREE_GIEOS = 2; 
 let isShaking = false; 
 
@@ -56,13 +51,6 @@ function getDailyEnergyGroup() {
 
 function gieoQue() {
     if (isShaking) return;
-
-    const hu = document.getElementById('img-hu');
-    const mainScreen = document.getElementById('main-screen');
-    const resultScreen = document.getElementById('result-screen');
-    const sndShake = document.getElementById('sound-shake');
-    const sndResult = document.getElementById('sound-result');
-
     let gieoCount = parseInt(localStorage.getItem('gieo_count')) || 0;
     let lastGieoDate = localStorage.getItem('last_gieo_date');
     const today = new Date().toISOString().slice(0, 10);
@@ -72,17 +60,22 @@ function gieoQue() {
         localStorage.setItem('last_gieo_date', today);
     }
 
-    // TỐI ƯU CHỖ NÀY: Không hiện alert thông báo tải quảng cáo giả nữa
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Duyên hôm nay đã đủ. Bạn có thể ủng hộ 'Tiệm Quẻ' bằng cách xem các quảng cáo tài trợ bên dưới nhé. Hẹn gặp lại bạn!");
+        alert("Hôm nay duyên đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo bên dưới và quay lại vào ngày mai nhé!");
         return;
     }
 
-    thucHienGieo(hu, mainScreen, resultScreen, sndShake, sndResult, gieoCount);
+    thucHienGieo(gieoCount);
 }
 
-function thucHienGieo(hu, mainScreen, resultScreen, sndShake, sndResult, currentCount) {
+function thucHienGieo(currentCount) {
     isShaking = true;
+    const hu = document.getElementById('img-hu');
+    const mainScreen = document.getElementById('main-screen');
+    const resultScreen = document.getElementById('result-screen');
+    const sndShake = document.getElementById('sound-shake');
+    const sndResult = document.getElementById('sound-result');
+
     hu.classList.add('shake');
     if (sndShake) sndShake.play().catch(() => {});
 
@@ -92,14 +85,23 @@ function thucHienGieo(hu, mainScreen, resultScreen, sndShake, sndResult, current
         if (sndResult) sndResult.play().catch(() => {});
 
         mainScreen.classList.add('hidden');
+        
         const groupName = getDailyEnergyGroup();
         const currentGroup = dataFortune[groupName];
         const ngauNhien = currentGroup[Math.floor(Math.random() * currentGroup.length)];
         
-        document.getElementById('ten-que').innerText = ngauNhien.ten;
-        document.getElementById('loi-giai').innerText = ngauNhien.loi;
-        resultScreen.classList.remove('hidden');
+        // --- LOGIC LỜI CHÀO THEO GIỜ ---
+        const hour = new Date().getHours();
+        let greeting = "";
+        if (hour < 11) greeting = "Sáng sớm thanh tịnh, ";
+        else if (hour < 14) greeting = "Trưa nắng đứng bóng, ";
+        else if (hour < 18) greeting = "Chiều tà buông xuống, ";
+        else greeting = "Đêm trường tĩnh lặng, ";
 
+        document.getElementById('ten-que').innerText = ngauNhien.ten;
+        document.getElementById('loi-giai').innerText = greeting + ngauNhien.loi;
+
+        resultScreen.classList.remove('hidden');
         localStorage.setItem('gieo_count', currentCount + 1);
         isShaking = false;
     }, 2000);
