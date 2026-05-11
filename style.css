@@ -1,202 +1,183 @@
-/* --- GIAO DIỆN TỔNG THỂ --- */
-:root {
-    --gold: #f1c40f;
-    --purple-dark: #1a0a2e;
-    --purple-light: #3e1b5d;
-    --white: #ffffff;
-    --glass: rgba(255, 255, 255, 0.08);
+/* CẤU TRÌNH CƠ BẢN */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background: radial-gradient(circle, var(--purple-light), var(--purple-dark));
-    color: var(--white);
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
+    background-color: #f4f1ea; /* Màu giấy cũ */
+    font-family: 'Charm', cursive;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    color: #333;
 }
 
-/* --- KHUNG CHỨA CHÍNH (Phóng to bề thế) --- */
 .container {
+    background: #fff;
     width: 90%;
-    max-width: 650px; 
-    min-height: 650px;
+    max-width: 400px;
+    padding: 30px 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     text-align: center;
-    padding: 50px 30px;
-    background: rgba(15, 5, 30, 0.9);
-    border-radius: 40px;
-    border: 3px solid var(--gold);
-    box-shadow: 0 0 50px rgba(241, 196, 15, 0.2);
-    backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Đẩy các phần xa nhau cho thoáng */
-    transition: all 0.3s ease;
+    border: 2px solid #d4af37; /* Viền vàng đồng nhẹ */
 }
 
-/* --- TIÊU ĐỀ & CHỮ --- */
-.title { 
-    color: var(--gold); 
-    text-shadow: 0 0 20px var(--gold); 
-    margin-bottom: 10px;
-    font-size: 2.2rem; 
-    letter-spacing: 3px;
-    text-transform: uppercase;
+/* TIÊU ĐỀ */
+.title {
+    font-size: 2rem;
+    color: #a13636;
+    margin-bottom: 5px;
 }
 
-.subtitle { 
-    font-size: 1.1rem; 
-    color: #ccc; 
-    margin-bottom: 30px; 
+.subtitle {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
 }
 
-#ten-que { 
-    color: var(--gold); 
-    font-size: 3rem; 
+/* HŨ XĂM & HIỆU ỨNG RUNG */
+.hu-xam-box {
     margin: 20px 0;
+    cursor: pointer;
+}
+
+#img-hu {
+    width: 180px;
+    transition: transform 0.2s;
+}
+
+.shake {
+    animation: shake-animation 0.5s infinite;
+}
+
+@keyframes shake-animation {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* PHẦN NHẬP TÊN */
+.input-section {
+    margin: 20px auto;
+    width: 100%;
+}
+
+#user-name {
+    width: 85%;
+    padding: 12px;
+    border: 2px solid #a13636;
+    border-radius: 10px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+    text-align: center;
+    outline: none;
+    background: #fffcf5;
+    transition: 0.3s;
+}
+
+#user-name:focus {
+    border-color: #ff4757;
+    box-shadow: 0 0 8px rgba(161, 54, 54, 0.2);
+}
+
+.note {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* NÚT BẤM */
+.btn-gieo, .btn-back {
+    background: #a13636;
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-family: 'Charm', cursive;
     font-weight: bold;
-    text-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
+    transition: 0.3s;
+    margin-top: 10px;
 }
 
-.divider { 
-    height: 3px; 
-    background: linear-gradient(to right, transparent, var(--gold), transparent); 
-    width: 80%; 
-    margin: 20px auto; 
+.btn-gieo:hover, .btn-back:hover {
+    background: #c0392b;
+    transform: scale(1.05);
 }
 
-#loi-giai { 
-    font-size: 1.35rem; 
-    line-height: 1.7; 
-    margin: 25px 0;
-    color: #ffffff;
-    padding: 0 20px;
-    font-style: italic;
+/* MÀN HÌNH KẾT QUẢ */
+.hidden {
+    display: none;
 }
 
-/* --- HŨ XĂM --- */
-#img-hu { 
-    width: 220px; 
-    cursor: pointer; 
-    filter: drop-shadow(0 0 20px var(--gold));
-    transition: transform 0.3s ease;
+.que-card {
+    background: #fffcf5;
+    border: 1px solid #eee;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 15px;
+    min-height: 150px;
 }
 
-#img-hu:hover {
-    transform: scale(1.1);
+#ten-que {
+    color: #d35400;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
 }
 
-/* --- PHẦN TÙY HỶ & QUẢNG CÁO --- */
+.line {
+    height: 2px;
+    background: #d35400;
+    width: 50%;
+    margin: 10px auto;
+}
+
+#loi-giai {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: #444;
+    min-height: 60px;
+}
+
+/* PHẦN THANH TOÁN (DONATE) */
 .payment-section {
-    margin: 30px 0;
-    padding: 25px;
-    background: var(--glass);
-    border-radius: 25px;
-    border: 1px solid rgba(241, 196, 15, 0.2);
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd;
 }
 
 .donate-text {
-    font-size: 1.05rem;
-    color: #ddd;
-    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 10px;
 }
 
 #qr-zalo {
-    width: 110px; 
+    width: 110px; /* Thu nhỏ mã QR */
     height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border: 2px solid #fff;
-    border-radius: 8px;
-    background: #fff;
 }
 
-.sub-qr {
-    font-size: 0.9rem;
-    color: var(--gold);
+.footer-note {
+    font-size: 0.7rem;
+    color: #aaa;
     margin-top: 10px;
-    font-weight: bold;
-}
-
-/* --- NÚT BẤM --- */
-.btn-retry {
-    background: var(--gold);
-    color: #000;
-    border: none;
-    padding: 15px 45px;
-    border-radius: 35px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    transition: 0.3s;
-    box-shadow: 0 5px 20px rgba(241, 196, 15, 0.4);
-}
-
-.btn-retry:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(241, 196, 15, 0.6);
-}
-
-/* --- DÒNG BẢN QUYỀN (Rực rỡ tên Nam) --- */
-.footer-credit {
-    margin-top: 40px;
-    padding-top: 25px;
-    font-size: 1.1rem; /* To rõ hơn hẳn */
-    font-weight: 800; /* Chữ siêu đậm */
-    color: var(--gold); /* Màu vàng rực rỡ */
-    text-shadow: 0 0 15px rgba(241, 196, 15, 0.6); /* Hiệu ứng phát sáng mạnh */
-    border-top: 1px solid rgba(241, 196, 15, 0.3);
-    letter-spacing: 2px;
-    text-transform: uppercase; /* Viết hoa cho chuyên nghiệp */
-}
-
-/* --- HIỆU ỨNG RUNG --- */
-.shake { animation: shake-ani 0.1s infinite; }
-@keyframes shake-ani {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(3deg); }
-    75% { transform: rotate(-3deg); }
-    100% { transform: rotate(0deg); }
-}
-
-.hidden { display: none; }
-.card { animation: fadeIn 0.6s ease-in-out; }
-@keyframes fadeIn { 
-    from { opacity: 0; transform: translateY(20px); } 
-    to { opacity: 1; transform: translateY(0); } 
-}
-/* Hiệu ứng khói huyền bí */
-.smoke-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Nằm dưới hũ xăm */
-    overflow: hidden;
-    pointer-events: none;
-    background: radial-gradient(circle, #2a2a2a 0%, #1a1a1a 100%);
-}
-
-.smoke {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 50%;
-    filter: blur(50px);
-    animation: smokeMove 20s infinite alternate;
-    opacity: 0.5;
-}
-
-/* Các làn khói bay lệch nhau cho tự nhiên */
-.smoke:nth-child(1) { top: -10%; left: -10%; animation-duration: 25s; }
-.smoke:nth-child(2) { bottom: -10%; right: -10%; animation-duration: 30s; animation-delay: -5s; }
-.smoke:nth-child(3) { top: 40%; left: 30%; animation-duration: 20s; animation-delay: -10s; }
-
-@keyframes smokeMove {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(100px, 50px) scale(1.2); }
-    100% { transform: translate(-50px, 100px) scale(0.9); }
 }
