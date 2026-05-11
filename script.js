@@ -1,6 +1,12 @@
+/**
+ * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN HOÀN THIỆN 2026
+ * Tác giả: Trần Bảo Nam
+ */
+
 const MAX_FREE_GIEOS = 2; 
 let isShaking = false; 
 
+// KHO 108 QUẺ BÓI (58 CÁT - 50 BÌNH AN)
 const dataFortune = {
     "NHOM_CAT_TUONG": [
         { ten: "ĐẠI CÁT", loi: "Vận may bùng nổ, dự định bấy lâu sẽ thành công rực rỡ." },
@@ -116,20 +122,32 @@ const dataFortune = {
     ]
 };
 
+// THUẬT TOÁN VẬN MỆNH THEO THIẾT BỊ VÀ NGÀY
 function getDailyEnergyGroup() {
     const today = new Date().toISOString().slice(0, 10);
-    const seed = today + "TranBaoNam";
+    
+    // Tạo ID thiết bị duy nhất nếu chưa có
+    let deviceID = localStorage.getItem('device_id');
+    if (!deviceID) {
+        deviceID = Math.random().toString(36).substring(2, 15);
+        localStorage.setItem('device_id', deviceID);
+    }
+
+    // Trộn Ngày + ID máy + Tên Nam để ra kết quả khác nhau cho từng người
+    const seed = today + deviceID + "TranBaoNam";
     let hash = 0;
     for (let i = 0; i < seed.length; i++) {
         hash = ((hash << 5) - hash) + seed.charCodeAt(i);
         hash |= 0;
     }
-    return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BINH_AN";
+    return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BIN_AN";
 }
 
-function typeWriter(elementId, text, speed = 50) {
+// HIỆU ỨNG GÕ CHỮ
+function typeWriter(elementId, text, speed = 60) {
     let i = 0;
     const element = document.getElementById(elementId);
+    if (!element) return;
     element.innerHTML = ""; 
     
     function typing() {
@@ -142,24 +160,30 @@ function typeWriter(elementId, text, speed = 50) {
     typing();
 }
 
+// LOGIC GIEO QUẺ
 function gieoQue() {
     if (isShaking) return;
+
     let gieoCount = parseInt(localStorage.getItem('gieo_count')) || 0;
     let lastGieoDate = localStorage.getItem('last_gieo_date');
     const today = new Date().toISOString().slice(0, 10);
 
+    // Reset nếu sang ngày mới
     if (lastGieoDate !== today) {
         gieoCount = 0;
         localStorage.setItem('last_gieo_date', today);
     }
 
+    // Kiểm tra giới hạn 2 lượt
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Hôm nay duyên đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và quay lại vào ngày mai nhé!");
+        alert("Duyên hôm nay đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và quay lại vào ngày mai nhé!");
         return;
     }
+
     thucHienGieo(gieoCount);
 }
 
+// HIỆU ỨNG RUNG VÀ HIỂN THỊ KẾT QUẢ
 function thucHienGieo(currentCount) {
     isShaking = true;
     const hu = document.getElementById('img-hu');
@@ -178,10 +202,12 @@ function thucHienGieo(currentCount) {
 
         if (mainScreen) mainScreen.classList.add('hidden');
         
+        // Bốc quẻ dựa trên năng lượng thiết bị
         const groupName = getDailyEnergyGroup();
-        const currentGroup = dataFortune[groupName];
+        const currentGroup = dataFortune[groupName] || dataFortune["NHOM_CAT_TUONG"];
         const ngauNhien = currentGroup[Math.floor(Math.random() * currentGroup.length)];
         
+        // Lời chào theo giờ
         const hour = new Date().getHours();
         let greeting = "";
         if (hour < 11) greeting = "Sáng sớm thanh tịnh, ";
@@ -190,18 +216,20 @@ function thucHienGieo(currentCount) {
         else greeting = "Đêm trường tĩnh lặng, ";
 
         const fullText = greeting + ngauNhien.loi;
-
+        
         const tenQueEl = document.getElementById('ten-que');
         if (tenQueEl) tenQueEl.innerText = ngauNhien.ten;
         
         if (resultScreen) resultScreen.classList.remove('hidden');
-        typeWriter('loi-giai', fullText, 60);
+        typeWriter('loi-giai', fullText);
 
+        // Lưu lượt gieo
         localStorage.setItem('gieo_count', currentCount + 1);
         isShaking = false;
     }, 2000);
 }
 
+// QUAY LẠI
 function restyle() {
     isShaking = false;
     const resultScreen = document.getElementById('result-screen');
