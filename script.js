@@ -1,6 +1,6 @@
 /**
- * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN ĐỊNH DANH THEO TÊN
- * Dev: Trần Bảo Nam
+ * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN CHÍNH THỨC 2026
+ * Phát triển bởi: Trần Bảo Nam
  */
 
 const MAX_FREE_GIEOS = 2; 
@@ -122,65 +122,55 @@ const dataFortune = {
     ]
 };
 
-// THUẬT TOÁN HASH CHỐNG BẮT BÀI (Tên + Ngày + Muối)
-function getDailyEnergyGroup(userName) {
+// THUẬT TOÁN HASH (Tên + Ngày + Muối)
+function getDailyEnergyGroup(name) {
     const today = new Date().toISOString().slice(0, 10);
-    const secretSalt = "NamBaoTran_Secret_2026"; // Muối bí mật của riêng ông
-    
-    // Trộn dữ liệu thành chuỗi duy nhất
-    const seed = userName.trim().toLowerCase() + today + secretSalt;
-    
+    const salt = "TranBaoNam_Soul_2026"; 
+    const seed = name.trim().toLowerCase() + today + salt;
     let hash = 0;
     for (let i = 0; i < seed.length; i++) {
         hash = ((hash << 5) - hash) + seed.charCodeAt(i);
-        hash |= 0; // Convert to 32bit integer
+        hash |= 0;
     }
-    
-    // Trả về nhóm (Chẵn = Tốt, Lẻ = Bình An)
     return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BINH_AN";
 }
 
 // HIỆU ỨNG GÕ CHỮ
-function typeWriter(elementId, text, speed = 60) {
+function typeWriter(elementId, text) {
     let i = 0;
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    element.innerHTML = ""; 
+    const el = document.getElementById(elementId);
+    el.innerHTML = "";
     function typing() {
         if (i < text.length) {
-            element.innerHTML += text.charAt(i);
+            el.innerHTML += text.charAt(i);
             i++;
-            setTimeout(typing, speed);
+            setTimeout(typing, 50);
         }
     }
     typing();
 }
 
-// HÀM XỬ LÝ KHI NHẤN NÚT GIEO
+// LOGIC GIEO QUẺ
 function gieoQue() {
     if (isShaking) return;
 
-    // Lấy tên từ ô input
-    const nameField = document.getElementById('user-name');
-    const nameInput = nameField ? nameField.value.trim() : "";
-
-    if (nameInput.length < 2) {
-        alert("Vui lòng nhập tên (ít nhất 2 ký tự) để quẻ linh ứng hơn Nam nhé!");
+    const nameInput = document.getElementById('user-name').value;
+    if (nameInput.trim().length < 2) {
+        alert("Vui lòng nhập tên (ít nhất 2 ký tự) để quẻ linh ứng Nam nhé!");
         return;
     }
 
-    // Kiểm tra lượt gieo trong ngày
     let gieoCount = parseInt(localStorage.getItem('gieo_count')) || 0;
-    let lastGieoDate = localStorage.getItem('last_gieo_date');
+    let lastDate = localStorage.getItem('last_gieo_date');
     const today = new Date().toISOString().slice(0, 10);
 
-    if (lastGieoDate !== today) {
+    if (lastDate !== today) {
         gieoCount = 0;
         localStorage.setItem('last_gieo_date', today);
     }
 
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Duyên hôm nay đã đủ. Hãy quay lại vào ngày mai để gieo quẻ mới nhé!");
+        document.getElementById('ads-screen').classList.remove('hidden');
         return;
     }
 
@@ -188,56 +178,49 @@ function gieoQue() {
 }
 
 // THỰC HIỆN HIỆU ỨNG RUNG VÀ HIỂN THỊ
-function thucHienGieo(currentCount, name) {
+function thucHienGieo(count, name) {
     isShaking = true;
-    const hu = document.getElementById('img-hu');
-    const mainScreen = document.getElementById('main-screen');
-    const resultScreen = document.getElementById('result-screen');
+    const img = document.getElementById('img-hu');
     const sndShake = document.getElementById('sound-shake');
     const sndResult = document.getElementById('sound-result');
 
-    if (hu) hu.classList.add('shake');
+    if (img) img.classList.add('shake');
     if (sndShake) sndShake.play().catch(() => {});
 
     setTimeout(() => {
-        if (hu) hu.classList.remove('shake');
+        if (img) img.classList.remove('shake');
         if (sndShake) { sndShake.pause(); sndShake.currentTime = 0; }
         if (sndResult) sndResult.play().catch(() => {});
 
-        if (mainScreen) mainScreen.classList.add('hidden');
+        document.getElementById('main-screen').classList.add('hidden');
         
-        // Xác định nhóm quẻ dựa trên tên và ngày
-        const groupName = getDailyEnergyGroup(name);
-        const currentGroup = dataFortune[groupName];
-        const ngauNhien = currentGroup[Math.floor(Math.random() * currentGroup.length)];
+        const group = getDailyEnergyGroup(name);
+        const list = dataFortune[group];
+        const res = list[Math.floor(Math.random() * list.length)];
         
-        // Lời chào theo thời gian thực
+        // Lời chào theo giờ
         const hour = new Date().getHours();
-        let greeting = "";
-        if (hour < 11) greeting = "Sáng sớm thanh tịnh, ";
-        else if (hour < 14) greeting = "Trưa nắng đứng bóng, ";
-        else if (hour < 18) greeting = "Chiều tà buông xuống, ";
-        else greeting = "Đêm trường tĩnh lặng, ";
+        let greeting = hour < 11 ? "Sáng sớm thanh tịnh, " : 
+                       hour < 14 ? "Trưa nắng đứng bóng, " : 
+                       hour < 18 ? "Chiều tà buông xuống, " : "Đêm trường tĩnh lặng, ";
 
-        const fullText = greeting + ngauNhien.loi;
+        document.getElementById('ten-que').innerText = res.ten;
+        document.getElementById('result-screen').classList.remove('hidden');
+        typeWriter('loi-giai', greeting + res.loi);
         
-        const tenQueEl = document.getElementById('ten-que');
-        if (tenQueEl) tenQueEl.innerText = ngauNhien.ten;
-        
-        if (resultScreen) resultScreen.classList.remove('hidden');
-        typeWriter('loi-giai', fullText);
-
-        // Lưu lượt gieo vào máy người dùng
-        localStorage.setItem('gieo_count', currentCount + 1);
+        localStorage.setItem('gieo_count', count + 1);
         isShaking = false;
-    }, 2000);
+    }, 1500);
 }
 
-// HÀM QUAY LẠI MÀN HÌNH CHÍNH
+// ĐÓNG QUẢNG CÁO
+function closeAds() {
+    document.getElementById('ads-screen').classList.add('hidden');
+}
+
+// QUAY LẠI
 function restyle() {
     isShaking = false;
-    const resultScreen = document.getElementById('result-screen');
-    const mainScreen = document.getElementById('main-screen');
-    if (resultScreen) resultScreen.classList.add('hidden');
-    if (mainScreen) mainScreen.classList.remove('hidden');
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('main-screen').classList.remove('hidden');
 }
