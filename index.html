@@ -18,8 +18,8 @@
             </div>
 
             <div class="input-section">
-                <input type="text" id="user-name" placeholder="Nhập tên để định vận mệnh..." maxlength="20">
-                <p class="note">* Tên dùng để tính năng lượng quẻ, không lưu lại.</p>
+                <input type="text" id="user-name" placeholder="Nhập tên của bạn..." maxlength="20">
+                <p class="note">* Tên dùng để tính toán năng lượng quẻ, không lưu lại.</p>
             </div>
 
             <button class="btn-gieo" onclick="gieoQue()">CHẠM ĐỂ GIEO QUẺ</button>
@@ -42,6 +42,20 @@
             <div class="payment-section">
                 <p class="donate-text">Mời thầy ly trà đá giải hạn:</p>
                 <img src="zalopay-qr.png" alt="QR Pay" id="qr-zalo">
+            </div>
+        </div>
+
+        <div id="ads-screen" class="hidden">
+            <div class="ads-box">
+                <p style="color: #f1c40f; margin-bottom: 10px;">Hết lượt gieo hôm nay!</p>
+                <p style="font-size: 0.8rem; margin-bottom: 15px;">Xem quảng cáo bên dưới để nhận thêm lượt:</p>
+                
+                <div class="ads-container">
+                    <script async="async" data-cfasync="false" src="https://pl29416190.profitablecpmratenetwork.com/83dd9a7b5b106b6582fb804a6c412d20/invoke.js"></script>
+                    <div id="container-83dd9a7b5b106b6582fb804a6c412d20"></div>
+                </div>
+
+                <button class="btn-back" style="margin-top: 15px;" onclick="closeAds()">ĐÓNG</button>
             </div>
         </div>
     </div>
