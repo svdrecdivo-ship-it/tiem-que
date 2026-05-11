@@ -1,3 +1,4 @@
+/* --- GIAO DIỆN TỔNG THỂ --- */
 :root {
     --gold: #f1c40f;
     --purple-dark: #1a0a2e;
@@ -9,7 +10,7 @@
 body {
     background: radial-gradient(circle, var(--purple-light), var(--purple-dark));
     color: var(--white);
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     display: flex;
     justify-content: center;
@@ -17,10 +18,11 @@ body {
     min-height: 100vh;
 }
 
+/* --- KHUNG CHỨA CHÍNH (Phóng to bề thế) --- */
 .container {
     width: 90%;
-    max-width: 650px; /* Khung to rộng rãi */
-    min-height: 600px;
+    max-width: 650px; 
+    min-height: 650px;
     text-align: center;
     padding: 50px 30px;
     background: rgba(15, 5, 30, 0.9);
@@ -30,43 +32,126 @@ body {
     backdrop-filter: blur(20px);
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* Đẩy các phần xa nhau cho thoáng */
+    transition: all 0.3s ease;
 }
 
-.title { color: var(--gold); text-shadow: 0 0 20px var(--gold); font-size: 2.2rem; }
-.subtitle { font-size: 1.1rem; color: #ccc; margin-bottom: 40px; }
+/* --- TIÊU ĐỀ & CHỮ --- */
+.title { 
+    color: var(--gold); 
+    text-shadow: 0 0 20px var(--gold); 
+    margin-bottom: 10px;
+    font-size: 2.2rem; 
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
 
-#ten-que { color: var(--gold); font-size: 2.8rem; margin: 20px 0; font-weight: bold; }
-.divider { height: 3px; background: linear-gradient(to right, transparent, var(--gold), transparent); width: 80%; margin: 20px auto; }
-#loi-giai { font-size: 1.3rem; line-height: 1.7; margin: 30px 0; font-style: italic; }
+.subtitle { 
+    font-size: 1.1rem; 
+    color: #ccc; 
+    margin-bottom: 30px; 
+}
 
-#img-hu { width: 220px; cursor: pointer; filter: drop-shadow(0 0 20px var(--gold)); transition: 0.3s; }
-#img-hu:hover { transform: scale(1.05); }
+#ten-que { 
+    color: var(--gold); 
+    font-size: 3rem; 
+    margin: 20px 0;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(241, 196, 15, 0.5);
+}
 
-.payment-section { margin-top: 30px; padding: 25px; background: var(--glass); border-radius: 25px; }
-.donate-text { font-size: 1rem; color: #ddd; margin-bottom: 15px; }
-#qr-zalo { width: 220px; border: 5px solid #fff; border-radius: 15px; }
-.sub-qr { font-size: 0.85rem; color: var(--gold); margin-top: 10px; font-weight: bold; }
+.divider { 
+    height: 3px; 
+    background: linear-gradient(to right, transparent, var(--gold), transparent); 
+    width: 80%; 
+    margin: 20px auto; 
+}
 
+#loi-giai { 
+    font-size: 1.35rem; 
+    line-height: 1.7; 
+    margin: 25px 0;
+    color: #ffffff;
+    padding: 0 20px;
+    font-style: italic;
+}
+
+/* --- HŨ XĂM --- */
+#img-hu { 
+    width: 220px; 
+    cursor: pointer; 
+    filter: drop-shadow(0 0 20px var(--gold));
+    transition: transform 0.3s ease;
+}
+
+#img-hu:hover {
+    transform: scale(1.1);
+}
+
+/* --- PHẦN TÙY HỶ & QUẢNG CÁO --- */
+.payment-section {
+    margin: 30px 0;
+    padding: 25px;
+    background: var(--glass);
+    border-radius: 25px;
+    border: 1px solid rgba(241, 196, 15, 0.2);
+}
+
+.donate-text {
+    font-size: 1.05rem;
+    color: #ddd;
+    margin-bottom: 15px;
+}
+
+#qr-zalo {
+    width: 220px; 
+    height: auto;
+    border: 5px solid #fff;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.sub-qr {
+    font-size: 0.9rem;
+    color: var(--gold);
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* --- NÚT BẤM --- */
 .btn-retry {
     background: var(--gold);
     color: #000;
     border: none;
-    padding: 15px 40px;
-    border-radius: 30px;
+    padding: 15px 45px;
+    border-radius: 35px;
     font-weight: bold;
-    margin-top: 30px;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    transition: 0.3s;
+    box-shadow: 0 5px 20px rgba(241, 196, 15, 0.4);
 }
 
+.btn-retry:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(241, 196, 15, 0.6);
+}
+
+/* --- DÒNG BẢN QUYỀN (Rực rỡ tên Nam) --- */
 .footer-credit {
-    margin-top: auto;
-    padding-top: 30px;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.3);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 40px;
+    padding-top: 25px;
+    font-size: 1.1rem; /* To rõ hơn hẳn */
+    font-weight: 800; /* Chữ siêu đậm */
+    color: var(--gold); /* Màu vàng rực rỡ */
+    text-shadow: 0 0 15px rgba(241, 196, 15, 0.6); /* Hiệu ứng phát sáng mạnh */
+    border-top: 1px solid rgba(241, 196, 15, 0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase; /* Viết hoa cho chuyên nghiệp */
 }
 
+/* --- HIỆU ỨNG RUNG --- */
 .shake { animation: shake-ani 0.1s infinite; }
 @keyframes shake-ani {
     0% { transform: rotate(0deg); }
@@ -76,5 +161,8 @@ body {
 }
 
 .hidden { display: none; }
-.card { animation: fadeIn 0.5s ease-in-out; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.card { animation: fadeIn 0.6s ease-in-out; }
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
