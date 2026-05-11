@@ -74,7 +74,7 @@ function gieoQue() {
 
     // TỐI ƯU CHỖ NÀY: Không hiện alert thông báo tải quảng cáo giả nữa
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Duyên hôm nay đã đủ. Bạn có thể ủng hộ 'Tiệm Quẻ' bằng cách xem các quảng cáo tài trợ bên dưới nhé. Hẹn bạn ngày mai quay lại!");
+        alert("Duyên hôm nay đã đủ. Bạn có thể ủng hộ 'Tiệm Quẻ' bằng cách xem các quảng cáo tài trợ bên dưới nhé. Hẹn gặp lại bạn!");
         return;
     }
 
