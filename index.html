@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiệm Quẻ Vỉa Hè - Nam Bảo Trần</title>
+    <title>Tiệm Quẻ Vỉa Hè - Trần Bảo Nam</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
 </head>
@@ -12,36 +12,36 @@
     <div class="container">
         <div id="main-screen">
             <h1 class="title">Tiệm Quẻ Vỉa Hè</h1>
-            <p class="subtitle">Thành tâm nhập tên - Định đoạt vận mệnh</p>
             
-            <div class="hu-xam-box">
-                <img src="hu-xam.png" id="img-hu" alt="Hũ Xăm" onclick="gieoQue()">
+            <div class="img-container">
+                <img src="nguoi-cam-que.png" id="img-hu" alt="Gieo Quẻ" onclick="gieoQue()">
             </div>
 
             <div class="input-section">
-                <input type="text" id="user-name" placeholder="Nhập tên của bạn..." maxlength="30">
-                <p class="note">* Tên bạn không được lưu lại, chỉ dùng để tính toán năng lượng quẻ.</p>
+                <input type="text" id="user-name" placeholder="Nhập tên để định vận mệnh..." maxlength="20">
+                <p class="note">* Tên dùng để tính năng lượng quẻ, không lưu lại.</p>
             </div>
 
-            <button class="btn-gieo" onclick="gieoQue()">GIEO QUẺ</button>
+            <button class="btn-gieo" onclick="gieoQue()">CHẠM ĐỂ GIEO QUẺ</button>
+            
+            <div class="system-footer">
+                Hệ thống quẻ bói được phát triển bởi Trần Bảo Nam 2026
+            </div>
         </div>
 
         <div id="result-screen" class="hidden">
-            <h2 class="result-title">Quẻ Của Bạn Là:</h2>
+            <h2 class="result-title">Vận Mệnh Của Bạn</h2>
             <div class="que-card">
                 <h1 id="ten-que">...</h1>
                 <div class="line"></div>
                 <p id="loi-giai"></p>
             </div>
             
-            <button class="btn-back" onclick="restyle()">QUAY LẠI</button>
+            <button class="btn-back" onclick="restyle()">XIN QUẺ KHÁC</button>
 
             <div class="payment-section">
-                <p class="donate-text">Thấy đúng thì mời thầy ly trà đá nhé:</p>
-                <div class="zalopay-box">
-                    <img src="zalopay-qr.png" alt="QR Pay" id="qr-zalo">
-                </div>
-                <p class="footer-note">(Hoàn toàn tự nguyện - Cảm ơn bạn)</p>
+                <p class="donate-text">Mời thầy ly trà đá giải hạn:</p>
+                <img src="zalopay-qr.png" alt="QR Pay" id="qr-zalo">
             </div>
         </div>
     </div>
