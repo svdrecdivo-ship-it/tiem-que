@@ -1,0 +1,173 @@
+/* 1. Cấu hình tổng thể */
+:root {
+    --gold: #f1c40f;
+    --gold-dark: #d4a017;
+    --purple-bg: #1a0a2e;
+    --purple-card: #2d134d;
+    --text-white: #ffffff;
+    --accent: #e91e63;
+}
+
+body {
+    background: radial-gradient(circle, var(--purple-bg) 0%, #0c0414 100%);
+    color: var(--text-white);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; /* Tránh cuộn trang trên điện thoại */
+}
+
+.container {
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    padding: 25px;
+    background: rgba(45, 19, 77, 0.6);
+    border-radius: 25px;
+    border: 2px solid var(--gold-dark);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(241, 196, 15, 0.2);
+    backdrop-filter: blur(10px); /* Hiệu ứng kính mờ */
+}
+
+/* 2. Tiêu đề và Văn bản */
+.title {
+    font-size: 1.8rem;
+    color: var(--gold);
+    text-shadow: 0 0 12px rgba(241, 196, 15, 0.7);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-bottom: 30px;
+}
+
+/* 3. Hiệu ứng Hũ xăm */
+#hu-xam {
+    margin: 20px auto;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#hu-xam:active {
+    transform: scale(0.95); /* Hiệu ứng nhấn nút */
+}
+
+#img-hu {
+    width: 180px;
+    filter: drop-shadow(0 0 10px var(--gold-dark));
+}
+
+/* Animation rung lắc khi gieo quẻ */
+.shake {
+    animation: shake-animation 0.15s infinite;
+}
+
+@keyframes shake-animation {
+    0% { transform: translate(0,0) rotate(0); }
+    25% { transform: translate(3px, -3px) rotate(3deg); }
+    50% { transform: translate(-3px, 3px) rotate(-3deg); }
+    75% { transform: translate(3px, 3px) rotate(3deg); }
+    100% { transform: translate(-3px, -3px) rotate(-3deg); }
+}
+
+/* 4. Kết quả quẻ bói */
+.card {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#ten-que {
+    font-size: 2rem;
+    color: var(--accent);
+    margin: 10px 0;
+    text-shadow: 0 0 8px rgba(233, 30, 99, 0.5);
+}
+
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 15px 0;
+}
+
+#loi-giai {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #efefef;
+    margin-bottom: 25px;
+}
+
+/* 5. Khu vực Thanh toán (QR Codes) */
+.payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.payment-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payment-item p {
+    font-size: 0.75rem;
+    margin: 0 0 8px 0;
+    color: var(--gold);
+}
+
+.payment-item img {
+    width: 100%;
+    border-radius: 5px;
+    filter: grayscale(20%);
+    transition: 0.3s;
+}
+
+.payment-item img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+/* 6. Nút bấm và Tiện ích */
+.btn-retry {
+    background: linear-gradient(45deg, var(--gold-dark), #f39c12);
+    color: #000;
+    border: none;
+    padding: 12px 30px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.btn-retry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(241, 196, 15, 0.4);
+}
+
+.ads-banner {
+    margin-top: 20px;
+    font-size: 0.7rem;
+    border: 1px dashed rgba(255,255,255,0.2);
+    padding: 5px;
+    color: #666;
+}
+
+.hidden {
+    display: none;
+}
