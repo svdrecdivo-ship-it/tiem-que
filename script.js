@@ -89,7 +89,7 @@ function gieoQue() {
 
     // Kiểm tra giới hạn lượt gieo
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Duyên hôm nay đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và quay lại vào ngày mai nhé!");
+        alert("Duyên hôm nay đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và hẹn gặp lại bạn nhé!");
         return;
     }
 
