@@ -1,72 +1,182 @@
+/* --- GIAO DIỆN TỔNG THỂ --- */
 :root {
     --gold: #f1c40f;
     --purple-dark: #1a0a2e;
     --purple-light: #3e1b5d;
     --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.05);
 }
 
 body {
     background: radial-gradient(circle, var(--purple-light), var(--purple-dark));
     color: var(--white);
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
+/* --- KHUNG CHỨA CHÍNH (Đã nới rộng) --- */
 .container {
-    width: 90%;
-    max-width: 400px;
+    width: 95%;
+    max-width: 550px; /* Nới rộng khung để nhìn bề thế hơn */
+    min-height: 500px;
     text-align: center;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
+    padding: 40px 20px;
+    background: rgba(15, 5, 30, 0.85);
+    border-radius: 30px;
     border: 2px solid var(--gold);
-    box-shadow: 0 0 20px rgba(241, 196, 15, 0.3);
-    backdrop-filter: blur(5px);
+    box-shadow: 0 0 40px rgba(241, 196, 15, 0.15);
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.title { color: var(--gold); text-shadow: 0 0 10px var(--gold); margin-bottom: 5px; }
-.subtitle { font-size: 0.9rem; color: #ccc; margin-bottom: 20px; }
+/* --- TIÊU ĐỀ & CHỮ --- */
+.title { 
+    color: var(--gold); 
+    text-shadow: 0 0 15px var(--gold); 
+    margin-bottom: 5px;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+}
 
-#img-hu { width: 160px; cursor: pointer; transition: 0.3s; filter: drop-shadow(0 0 10px var(--gold)); }
+.subtitle { 
+    font-size: 0.9rem; 
+    color: #bbb; 
+    margin-bottom: 30px; 
+}
 
-/* Hiệu ứng rung */
-.shake { animation: shake-ani 0.1s infinite; }
+#ten-que { 
+    color: var(--gold); 
+    font-size: 2.2rem; 
+    margin: 15px 0;
+    text-transform: uppercase;
+}
+
+.divider { 
+    height: 2px; 
+    background: linear-gradient(to right, transparent, var(--gold), transparent); 
+    width: 70%; 
+    margin: 15px auto; 
+}
+
+#loi-giai { 
+    font-size: 1.15rem; 
+    line-height: 1.6; 
+    margin: 25px 0;
+    color: #f0f0f0;
+    font-style: italic;
+    padding: 0 10px;
+}
+
+/* --- HIỆU ỨNG HŨ XĂM --- */
+#img-hu { 
+    width: 180px; 
+    cursor: pointer; 
+    transition: transform 0.3s ease;
+    filter: drop-shadow(0 0 15px var(--gold));
+}
+
+#img-hu:hover {
+    transform: scale(1.05);
+}
+
+.shake { 
+    animation: shake-ani 0.15s infinite; 
+}
+
 @keyframes shake-ani {
     0% { transform: translate(2px, 1px) rotate(0deg); }
-    50% { transform: translate(-2px, -1px) rotate(-2deg); }
-    100% { transform: translate(2px, 1px) rotate(2deg); }
+    50% { transform: translate(-2px, -1px) rotate(-3deg); }
+    100% { transform: translate(2px, 1px) rotate(3deg); }
 }
 
-.card { animation: fadeIn 1s; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* --- PHẦN TÙY HỶ (MÃ QR) --- */
+.payment-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--glass);
+    border-radius: 20px;
+}
 
-#ten-que { color: var(--gold); font-size: 1.8rem; margin: 10px 0; }
-.divider { height: 2px; background: var(--gold); width: 50%; margin: 10px auto; }
-#loi-giai { font-style: italic; line-height: 1.5; margin-bottom: 20px; }
+.donate-text {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
 
 .zalopay-box {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 10px;
     display: inline-block;
 }
-.zalopay-box img { width: 150px; border: 2px solid #fff; border-radius: 5px; margin-top: 5px; }
 
+#qr-zalo {
+    width: 180px; /* Kích thước mã QR vừa vặn */
+    height: auto;
+    border: 4px solid #fff;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.sub-qr {
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* --- NÚT BẤM --- */
 .btn-retry {
     background: var(--gold);
     color: #000;
     border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
+    padding: 12px 30px;
+    border-radius: 25px;
     font-weight: bold;
-    margin-top: 20px;
+    margin: 25px 0;
     cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(241, 196, 15, 0.4);
 }
 
-.ads-banner { margin-top: 20px; font-size: 0.8rem; color: #888; border-top: 1px dashed #555; padding-top: 10px; }
-.hidden { display: none; }
+.btn-retry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(241, 196, 15, 0.6);
+}
+
+/* --- QUẢNG CÁO & BẢN QUYỀN --- */
+.ads-banner { 
+    margin-top: 20px; 
+    font-size: 0.75rem; 
+    color: #666; 
+}
+
+.footer-credit {
+    margin-top: 20px;
+    padding-top: 15px;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    letter-spacing: 1px;
+}
+
+/* ẨN MÀN HÌNH */
+.hidden { 
+    display: none; 
+}
+
+/* ANIMATION HIỆN DẦN */
+.card { 
+    animation: fadeIn 0.8s ease-out; 
+}
+
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
