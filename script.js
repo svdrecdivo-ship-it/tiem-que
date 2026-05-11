@@ -1,6 +1,6 @@
 /**
- * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN HOÀN THIỆN 2026
- * Tác giả: Trần Bảo Nam
+ * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN ĐỊNH DANH THEO TÊN
+ * Dev: Trần Bảo Nam
  */
 
 const MAX_FREE_GIEOS = 2; 
@@ -122,25 +122,22 @@ const dataFortune = {
     ]
 };
 
-// THUẬT TOÁN VẬN MỆNH THEO THIẾT BỊ VÀ NGÀY
-function getDailyEnergyGroup() {
+// THUẬT TOÁN HASH CHỐNG BẮT BÀI (Tên + Ngày + Muối)
+function getDailyEnergyGroup(userName) {
     const today = new Date().toISOString().slice(0, 10);
+    const secretSalt = "NamBaoTran_Secret_2026"; // Muối bí mật của riêng ông
     
-    // Tạo ID thiết bị duy nhất nếu chưa có
-    let deviceID = localStorage.getItem('device_id');
-    if (!deviceID) {
-        deviceID = Math.random().toString(36).substring(2, 15);
-        localStorage.setItem('device_id', deviceID);
-    }
-
-    // Trộn Ngày + ID máy + Tên Nam để ra kết quả khác nhau cho từng người
-    const seed = today + deviceID + "TranBaoNam";
+    // Trộn dữ liệu thành chuỗi duy nhất
+    const seed = userName.trim().toLowerCase() + today + secretSalt;
+    
     let hash = 0;
     for (let i = 0; i < seed.length; i++) {
         hash = ((hash << 5) - hash) + seed.charCodeAt(i);
-        hash |= 0;
+        hash |= 0; // Convert to 32bit integer
     }
-    return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BIN_AN";
+    
+    // Trả về nhóm (Chẵn = Tốt, Lẻ = Bình An)
+    return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BINH_AN";
 }
 
 // HIỆU ỨNG GÕ CHỮ
@@ -149,7 +146,6 @@ function typeWriter(elementId, text, speed = 60) {
     const element = document.getElementById(elementId);
     if (!element) return;
     element.innerHTML = ""; 
-    
     function typing() {
         if (i < text.length) {
             element.innerHTML += text.charAt(i);
@@ -160,31 +156,39 @@ function typeWriter(elementId, text, speed = 60) {
     typing();
 }
 
-// LOGIC GIEO QUẺ
+// HÀM XỬ LÝ KHI NHẤN NÚT GIEO
 function gieoQue() {
     if (isShaking) return;
 
+    // Lấy tên từ ô input
+    const nameField = document.getElementById('user-name');
+    const nameInput = nameField ? nameField.value.trim() : "";
+
+    if (nameInput.length < 2) {
+        alert("Vui lòng nhập tên (ít nhất 2 ký tự) để quẻ linh ứng hơn Nam nhé!");
+        return;
+    }
+
+    // Kiểm tra lượt gieo trong ngày
     let gieoCount = parseInt(localStorage.getItem('gieo_count')) || 0;
     let lastGieoDate = localStorage.getItem('last_gieo_date');
     const today = new Date().toISOString().slice(0, 10);
 
-    // Reset nếu sang ngày mới
     if (lastGieoDate !== today) {
         gieoCount = 0;
         localStorage.setItem('last_gieo_date', today);
     }
 
-    // Kiểm tra giới hạn 2 lượt
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Duyên hôm nay đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và quay lại vào ngày mai nhé!");
+        alert("Duyên hôm nay đã đủ. Hãy quay lại vào ngày mai để gieo quẻ mới nhé!");
         return;
     }
 
-    thucHienGieo(gieoCount);
+    thucHienGieo(gieoCount, nameInput);
 }
 
-// HIỆU ỨNG RUNG VÀ HIỂN THỊ KẾT QUẢ
-function thucHienGieo(currentCount) {
+// THỰC HIỆN HIỆU ỨNG RUNG VÀ HIỂN THỊ
+function thucHienGieo(currentCount, name) {
     isShaking = true;
     const hu = document.getElementById('img-hu');
     const mainScreen = document.getElementById('main-screen');
@@ -202,12 +206,12 @@ function thucHienGieo(currentCount) {
 
         if (mainScreen) mainScreen.classList.add('hidden');
         
-        // Bốc quẻ dựa trên năng lượng thiết bị
-        const groupName = getDailyEnergyGroup();
-        const currentGroup = dataFortune[groupName] || dataFortune["NHOM_CAT_TUONG"];
+        // Xác định nhóm quẻ dựa trên tên và ngày
+        const groupName = getDailyEnergyGroup(name);
+        const currentGroup = dataFortune[groupName];
         const ngauNhien = currentGroup[Math.floor(Math.random() * currentGroup.length)];
         
-        // Lời chào theo giờ
+        // Lời chào theo thời gian thực
         const hour = new Date().getHours();
         let greeting = "";
         if (hour < 11) greeting = "Sáng sớm thanh tịnh, ";
@@ -223,13 +227,13 @@ function thucHienGieo(currentCount) {
         if (resultScreen) resultScreen.classList.remove('hidden');
         typeWriter('loi-giai', fullText);
 
-        // Lưu lượt gieo
+        // Lưu lượt gieo vào máy người dùng
         localStorage.setItem('gieo_count', currentCount + 1);
         isShaking = false;
     }, 2000);
 }
 
-// QUAY LẠI
+// HÀM QUAY LẠI MÀN HÌNH CHÍNH
 function restyle() {
     isShaking = false;
     const resultScreen = document.getElementById('result-screen');
