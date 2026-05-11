@@ -1,6 +1,13 @@
+/**
+ * TIỆM QUẺ VỈA HÈ - PHIÊN BẢN ĐẶC BIỆT 2026
+ * Tác giả: Trần Bảo Nam
+ * Tính năng: Hiệu ứng gõ chữ, Lời chào theo giờ, 30 quẻ bói, Chặn gieo 2 lượt.
+ */
+
 const MAX_FREE_GIEOS = 2; 
 let isShaking = false; 
 
+// KHO DỮ LIỆU 30 QUẺ BÓI
 const dataFortune = {
     "NHOM_CAT_TUONG": [
         { ten: "ĐẠI CÁT", loi: "Vận may bùng nổ! Những dự định bấy lâu nay sẽ thành công rực rỡ ngoài mong đợi." },
@@ -38,6 +45,7 @@ const dataFortune = {
     ]
 };
 
+// LOGIC CHỌN NHÓM NĂNG LƯỢNG THEO NGÀY
 function getDailyEnergyGroup() {
     const today = new Date().toISOString().slice(0, 10);
     const seed = today + "TranBaoNam";
@@ -49,25 +57,46 @@ function getDailyEnergyGroup() {
     return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BINH_AN";
 }
 
+// HÀM GÕ CHỮ (TYPING EFFECT)
+function typeWriter(elementId, text, speed = 50) {
+    let i = 0;
+    const element = document.getElementById(elementId);
+    element.innerHTML = ""; // Xóa trắng nội dung cũ
+    
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    typing();
+}
+
+// HÀM GIEO QUẺ CHÍNH
 function gieoQue() {
     if (isShaking) return;
+
     let gieoCount = parseInt(localStorage.getItem('gieo_count')) || 0;
     let lastGieoDate = localStorage.getItem('last_gieo_date');
     const today = new Date().toISOString().slice(0, 10);
 
+    // Reset lượt gieo nếu sang ngày mới
     if (lastGieoDate !== today) {
         gieoCount = 0;
         localStorage.setItem('last_gieo_date', today);
     }
 
+    // Kiểm tra giới hạn lượt gieo
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Hôm nay duyên đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo bên dưới và quay lại vào ngày mai nhé!");
+        alert("Duyên hôm nay đã đủ. Hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và quay lại vào ngày mai nhé!");
         return;
     }
 
     thucHienGieo(gieoCount);
 }
 
+// XỬ LÝ HIỆU ỨNG VÀ KẾT QUẢ
 function thucHienGieo(currentCount) {
     isShaking = true;
     const hu = document.getElementById('img-hu');
@@ -76,21 +105,25 @@ function thucHienGieo(currentCount) {
     const sndShake = document.getElementById('sound-shake');
     const sndResult = document.getElementById('sound-result');
 
+    // Bắt đầu rung hũ và phát âm thanh
     hu.classList.add('shake');
     if (sndShake) sndShake.play().catch(() => {});
 
     setTimeout(() => {
+        // Dừng rung
         hu.classList.remove('shake');
         if (sndShake) { sndShake.pause(); sndShake.currentTime = 0; }
         if (sndResult) sndResult.play().catch(() => {});
 
+        // Chuyển màn hình
         mainScreen.classList.add('hidden');
         
+        // Lấy quẻ ngẫu nhiên từ nhóm năng lượng trong ngày
         const groupName = getDailyEnergyGroup();
         const currentGroup = dataFortune[groupName];
         const ngauNhien = currentGroup[Math.floor(Math.random() * currentGroup.length)];
         
-        // --- LOGIC LỜI CHÀO THEO GIỜ ---
+        // Lấy lời chào theo thời gian thực
         const hour = new Date().getHours();
         let greeting = "";
         if (hour < 11) greeting = "Sáng sớm thanh tịnh, ";
@@ -98,15 +131,20 @@ function thucHienGieo(currentCount) {
         else if (hour < 18) greeting = "Chiều tà buông xuống, ";
         else greeting = "Đêm trường tĩnh lặng, ";
 
-        document.getElementById('ten-que').innerText = ngauNhien.ten;
-        document.getElementById('loi-giai').innerText = greeting + ngauNhien.loi;
+        const fullText = greeting + ngauNhien.loi;
 
+        // Hiển thị kết quả với hiệu ứng gõ chữ
+        document.getElementById('ten-que').innerText = ngauNhien.ten;
         resultScreen.classList.remove('hidden');
+        typeWriter('loi-giai', fullText, 60);
+
+        // Lưu lượt gieo
         localStorage.setItem('gieo_count', currentCount + 1);
         isShaking = false;
     }, 2000);
 }
 
+// QUAY LẠI MÀN HÌNH CHÍNH
 function restyle() {
     isShaking = false;
     document.getElementById('result-screen').classList.add('hidden');
