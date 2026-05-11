@@ -1,4 +1,4 @@
-/* CẤU TRÌNH CƠ BẢN */
+/* --- CẤU TRÌNH CƠ BẢN --- */
 * {
     margin: 0;
     padding: 0;
@@ -6,113 +6,91 @@
 }
 
 body {
-    background-color: #f4f1ea; /* Màu giấy cũ */
+    /* Nền tối huyền bí đúng chất game Soul */
+    background-color: #1a1a1a; 
+    background-image: radial-gradient(circle, #2c3e50 0%, #000000 100%);
     font-family: 'Charm', cursive;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    color: #333;
+    color: #eee;
+    overflow: hidden;
 }
 
 .container {
-    background: #fff;
+    background: rgba(45, 45, 45, 0.95);
     width: 90%;
-    max-width: 400px;
-    padding: 30px 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 380px;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5), 0 0 5px #a13636;
     text-align: center;
-    border: 2px solid #d4af37; /* Viền vàng đồng nhẹ */
+    border: 1px solid #444;
+    position: relative; /* Để chứa màn hình quảng cáo absolute */
 }
 
-/* TIÊU ĐỀ */
+/* --- MÀN HÌNH CHÍNH --- */
 .title {
-    font-size: 2rem;
-    color: #a13636;
-    margin-bottom: 5px;
+    font-size: 1.8rem;
+    color: #e74c3c;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 15px;
 }
 
-.subtitle {
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-/* HŨ XĂM & HIỆU ỨNG RUNG */
-.hu-xam-box {
-    margin: 20px 0;
+.img-container {
+    margin: 15px 0;
     cursor: pointer;
 }
 
 #img-hu {
-    width: 180px;
+    width: 150px;
+    filter: drop-shadow(0 0 10px rgba(231, 76, 60, 0.3));
     transition: transform 0.2s;
 }
 
-.shake {
-    animation: shake-animation 0.5s infinite;
-}
-
-@keyframes shake-animation {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(3px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(3px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(1px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-/* PHẦN NHẬP TÊN */
+/* --- PHẦN NHẬP TÊN --- */
 .input-section {
-    margin: 20px auto;
-    width: 100%;
+    margin-bottom: 20px;
 }
 
 #user-name {
     width: 85%;
-    padding: 12px;
-    border: 2px solid #a13636;
-    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #a13636;
+    border-radius: 5px;
+    background: #222;
+    color: #fff;
     font-family: 'Patrick Hand', cursive;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
     outline: none;
-    background: #fffcf5;
-    transition: 0.3s;
+    transition: border 0.3s;
 }
 
 #user-name:focus {
-    border-color: #ff4757;
-    box-shadow: 0 0 8px rgba(161, 54, 54, 0.2);
+    border-color: #f1c40f;
 }
 
 .note {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     color: #888;
-    margin-top: 8px;
-    font-family: Arial, sans-serif;
+    margin-top: 5px;
+    font-family: sans-serif;
 }
 
-/* NÚT BẤM */
+/* --- NÚT BẤM --- */
 .btn-gieo, .btn-back {
     background: #a13636;
     color: white;
     border: none;
-    padding: 12px 35px;
-    border-radius: 50px;
-    font-size: 1.1rem;
+    padding: 10px 25px;
+    border-radius: 5px;
     cursor: pointer;
     font-family: 'Charm', cursive;
     font-weight: bold;
+    font-size: 1rem;
     transition: 0.3s;
-    margin-top: 10px;
 }
 
 .btn-gieo:hover, .btn-back:hover {
@@ -120,64 +98,115 @@ body {
     transform: scale(1.05);
 }
 
-/* MÀN HÌNH KẾT QUẢ */
-.hidden {
-    display: none;
+/* --- MÀN HÌNH KẾT QUẢ --- */
+.result-title {
+    font-size: 1.5rem;
+    color: #f1c40f;
+    margin-bottom: 15px;
 }
 
 .que-card {
-    background: #fffcf5;
-    border: 1px solid #eee;
+    background: #222;
     padding: 20px;
-    margin: 20px 0;
     border-radius: 15px;
-    min-height: 150px;
+    margin: 15px 0;
+    border: 1px solid #333;
+    min-height: 140px;
 }
 
 #ten-que {
-    color: #d35400;
+    color: #f1c40f;
     font-size: 2.2rem;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .line {
-    height: 2px;
-    background: #d35400;
-    width: 50%;
+    height: 1px;
+    background: #a13636;
+    width: 60%;
     margin: 10px auto;
 }
 
 #loi-giai {
     font-family: 'Patrick Hand', cursive;
     font-size: 1.15rem;
-    line-height: 1.5;
-    color: #444;
-    min-height: 60px;
+    color: #ddd;
+    line-height: 1.4;
 }
 
-/* PHẦN THANH TOÁN (DONATE) */
+/* --- THANH TOÁN QUẢNG CÁO --- */
 .payment-section {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px dashed #ddd;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed #444;
 }
 
 .donate-text {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 10px;
+    font-size: 0.85rem;
+    color: #aaa;
+    margin-bottom: 8px;
 }
 
 #qr-zalo {
-    width: 110px; /* Thu nhỏ mã QR */
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border: 2px solid #fff;
+    width: 100px;
+    border-radius: 8px;
+    opacity: 0.8;
+    border: 1px solid #555;
 }
 
-.footer-note {
-    font-size: 0.7rem;
-    color: #aaa;
-    margin-top: 10px;
+/* --- MÀN HÌNH QUẢNG CÁO (ADS) --- */
+#ads-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.98);
+    border-radius: 25px;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ads-box {
+    width: 90%;
+    text-align: center;
+}
+
+.ads-container {
+    margin: 15px 0;
+    min-height: 250px;
+    background: #111;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+/* --- FOOTER HỆ THỐNG --- */
+.system-footer {
+    margin-top: 25px;
+    font-size: 0.65rem;
+    color: #555;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* --- HIỆU ỨNG RUNG --- */
+.shake {
+    animation: shake-animation 0.5s infinite;
+}
+
+@keyframes shake-animation {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* --- TIỆN ÍCH --- */
+.hidden {
+    display: none !important;
 }
