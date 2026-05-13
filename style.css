@@ -235,3 +235,49 @@ body {
     50% { transform: translate(100px, 50px) scale(1.2); }
     100% { transform: translate(-50px, 100px) scale(0.9); }
 }
+/* --- KHU VỰC DỊCH VỤ BỔ SUNG --- */
+.extra-services {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Chia làm 2 cột cho gọn */
+    gap: 10px;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(241, 196, 15, 0.2);
+}
+
+.service-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--white) !important;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.service-btn:hover {
+    background: var(--gold);
+    color: #000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(241, 196, 15, 0.3);
+}
+
+.service-btn.finance {
+    border-color: #2ecc71; /* Màu xanh lá cho tài chính */
+}
+
+.service-title {
+    grid-column: span 2;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
