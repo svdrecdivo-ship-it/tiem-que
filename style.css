@@ -235,3 +235,68 @@ body {
     50% { transform: translate(100px, 50px) scale(1.2); }
     100% { transform: translate(-50px, 100px) scale(0.9); }
 }
+/* --- CSS CHO CÁC NÚT BẤM DỊCH VỤ MỚI --- */
+.extra-services-container {
+    margin: 30px 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid rgba(241, 196, 15, 0.2);
+}
+
+.extra-title {
+    font-size: 0.9rem;
+    color: var(--gold);
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.service-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.group-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    border-left: 2px solid var(--gold);
+}
+
+.btn-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.service-btn {
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Hiệu ứng riêng cho nút Tài chính */
+.service-btn.finance:hover {
+    background: #27ae60;
+    border-color: #2ecc71;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* Hiệu ứng riêng cho nút Game */
+.service-btn.game:hover {
+    background: #e67e22;
+    border-color: #f39c12;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(230, 126, 34, 0.3);
+}
