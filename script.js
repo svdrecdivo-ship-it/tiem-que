@@ -212,8 +212,8 @@ function thucHienGieo(currentCount, userName) {
         let greeting = "";
         if (hour < 11) greeting = "Khởi đầu ngày mới, tâm thế hanh thông. ";
         else if (hour < 14) greeting = "Giữa dòng thời gian, dừng chân tĩnh tại. ";
-        else if (hour < 18) greeting = "Ngày dần trôi qua, lòng người lắng lại.";
-        else greeting = "Không gian tĩnh lặng, duyên định về đêm.";
+        else if (hour < 18) greeting = "Ngày dần trôi qua, lòng người lắng lại. ";
+        else greeting = "Không gian tĩnh lặng, duyên định về đêm. ";
 
         // Bước 3: Định dạng lời khuyên (Tự động thêm xuống dòng đẹp mắt)
         const fullText = greeting + ngauNhien.loi + "\n\n" + ngauNhien.khuyen;
