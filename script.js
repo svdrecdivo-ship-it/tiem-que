@@ -123,16 +123,21 @@ const dataFortune = {
     ]
 };
 
-// --- GIỮ NGUYÊN TOÀN BỘ LOGIC CỦA BẢO NAM ---
-
+/**
+ * THUẬT TOÁN MÃ BĂM (HASHING) 
+ * Mục đích: Đảm bảo "Nam" gieo ở đâu hôm nay cũng ra cùng 1 Nhóm (Tốt hoặc Bình)
+ */
 function getDailyEnergyGroup(userName) {
     const today = new Date().toISOString().slice(0, 10);
+    // Kết hợp Tên + Ngày để tạo hạt giống định mệnh
     const seed = today + userName.trim().toLowerCase() + "TranBaoNam2026";
     let hash = 0;
     for (let i = 0; i < seed.length; i++) {
+        // Thuật toán dịch bit để Nam khác Nma, đảm bảo tính duy nhất
         hash = ((hash << 5) - hash) + seed.charCodeAt(i);
         hash |= 0;
     }
+    // Chẵn ra Cát, Lẻ ra Bình - Luôn cố định cho 1 cái tên trong 1 ngày
     return Math.abs(hash) % 2 === 0 ? "NHOM_CAT_TUONG" : "NHOM_BINH_AN";
 }
 
@@ -143,7 +148,6 @@ function typeWriter(elementId, text, speed = 60) {
     element.innerHTML = ""; 
     function typing() {
         if (i < text.length) {
-            // Hỗ trợ xuống dòng thực sự khi gặp \n
             if (text.charAt(i) === "\n") {
                 element.innerHTML += "<br>";
             } else {
@@ -195,12 +199,14 @@ function thucHienGieo(currentCount, userName) {
         if (sndResult) sndResult.play().catch(() => {});
         if (mainScreen) mainScreen.classList.add('hidden');
 
+        // BƯỚC 1: XÁC ĐỊNH BẢN CHẤT (NHÓM) - DÙNG MÃ BĂM ĐỊNH MỆNH
         const groupName = getDailyEnergyGroup(userName);
         const currentGroup = dataFortune[groupName];
         
-        const day = new Date().getDate();
-        const seedIndex = userName.length + day;
-        const ngauNhien = currentGroup[seedIndex % currentGroup.length];
+        // BƯỚC 2: CHỌN QUẺ CỤ THỂ - DÙNG RANDOM ĐỂ KHÔNG BỊ TRÙNG MÁY MÓC
+        // Hai người cùng tên gieo sẽ ra 2 quẻ khác nhau trong cùng nhóm Cát/Bình
+        const randomIndex = Math.floor(Math.random() * currentGroup.length);
+        const ngauNhien = currentGroup[randomIndex];
         
         const hour = new Date().getHours();
         let greeting = "";
@@ -209,7 +215,7 @@ function thucHienGieo(currentCount, userName) {
         else if (hour < 18) greeting = "Chiều tà buông xuống, ";
         else greeting = "Đêm trường tĩnh lặng, ";
 
-        // Kết hợp lời giải và lời khuyên có xuống dòng
+        // Bước 3: Định dạng lời khuyên (Tự động thêm xuống dòng đẹp mắt)
         const fullText = greeting + ngauNhien.loi + "\n\n" + ngauNhien.khuyen;
         
         const tenQueEl = document.getElementById('ten-que');
@@ -217,6 +223,7 @@ function thucHienGieo(currentCount, userName) {
         if (resultScreen) resultScreen.classList.remove('hidden');
         
         typeWriter('loi-giai', fullText);
+
         localStorage.setItem('gieo_count', currentCount + 1);
         isShaking = false;
     }, 2000);
