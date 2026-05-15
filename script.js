@@ -164,7 +164,7 @@ function gieoQue() {
     if (isShaking) return;
     const nameInput = document.getElementById('user-name').value;
     if (nameInput.trim().length < 2) {
-        alert("Vui lòng nhập tên (ít nhất 2 ký tự) để quẻ linh ứng nhé!");
+        alert("Vui lòng nhập tên (ít nhất 2 ký tự) để gieo quẻ nhé!");
         return;
     }
     let gieoCount = parseInt(localStorage.getItem('gieo_count')) || 0;
@@ -210,10 +210,10 @@ function thucHienGieo(currentCount, userName) {
         
         const hour = new Date().getHours();
         let greeting = "";
-        if (hour < 11) greeting = "Sáng sớm thanh tịnh, ";
-        else if (hour < 14) greeting = "Trưa nắng đứng bóng, ";
-        else if (hour < 18) greeting = "Chiều tà buông xuống, ";
-        else greeting = "Đêm trường tĩnh lặng, ";
+        if (hour < 11) greeting = "Khởi đầu ngày mới, tâm thế hanh thông. ";
+        else if (hour < 14) greeting = "Giữa dòng thời gian, dừng chân tĩnh tại. ";
+        else if (hour < 18) greeting = "Ngày dần trôi qua, lòng người lắng lại.";
+        else greeting = "Không gian tĩnh lặng, duyên định về đêm.";
 
         // Bước 3: Định dạng lời khuyên (Tự động thêm xuống dòng đẹp mắt)
         const fullText = greeting + ngauNhien.loi + "\n\n" + ngauNhien.khuyen;
