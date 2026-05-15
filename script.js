@@ -176,7 +176,7 @@ function gieoQue() {
     }
 
     if (gieoCount >= MAX_FREE_GIEOS) {
-        alert("Duyên hôm nay đã đủ. Nếu được hãy ủng hộ 'Tiệm Quẻ' bằng cách xem quảng cáo và quay lại vào ngày mai nhé!");
+        alert("Duyên hôm nay đã đủ. Hãy quay lại vào ngày mai nhé!");
         return;
     }
 
